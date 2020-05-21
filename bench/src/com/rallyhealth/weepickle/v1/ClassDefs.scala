@@ -1,8 +1,8 @@
 package com.rallyhealth.weepickle.v1
 
 //import com.rallyhealth.weepickle.v1.ADTs.ADT0
-import WeePickle.{FromTo => RW, To => R, From => W}
-import com.rallyhealth.weepickle.v1.implicits.key
+import WeePickle.{From => W, FromTo => RW, To => R}
+import com.rallyhealth.weepickle.v1.implicits.{MacroImplicits, key}
 /*
  * A whole bunch of test data that can be used by client libraries to try out
  * their typeclass derivation to make sure it's doing the right thing. Contains
@@ -78,8 +78,9 @@ object Hierarchy {
   }
 
   object Z {
-    implicit def rw: com.rallyhealth.weepickle.v1.WeePickle.FromTo[Z] = RW.merge(
-      implicitly[com.rallyhealth.weepickle.v1.WeePickle.FromTo[AnZ.type]]
+
+    implicit def rw[T <: Z]: com.rallyhealth.weepickle.v1.WeePickle.FromTo[Z] = RW.merge(
+      WeePickle.macroSingletonFromTo[AnZ.type]
     )
   }
   sealed trait Z //new line
@@ -134,10 +135,8 @@ object Singletons {
   sealed trait AA
 
   object AA {
-    implicit def rw: RW[AA] = RW.merge(
-      WeePickle.macroFromTo[BB.type],
-      WeePickle.macroFromTo[CC.type]
-    )
+
+    implicit def rw[T <: AA]: RW[T] = WeePickle.macroFromTo[AA]
   }
   case object BB extends AA
   case object CC extends AA
