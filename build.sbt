@@ -4,7 +4,10 @@ import sbt._
 name := "weePickle-build"
 publish / skip := true
 
-lazy val bench = project.dependsOn(weepickle)
+//lazy val bench = project
+//  .dependsOn(weepickle % "compile->test")
+//  .enablePlugins(JmhPlugin)
+
 lazy val core = project
   .settings(
     libraryDependencies ++= Seq(
@@ -57,15 +60,27 @@ lazy val implicits = project
       Seq(file)
     }
   )
-lazy val weepickle = project.dependsOn(implicits, core)
+
+lazy val weepickle = project
+  .dependsOn(
+    implicits,
+    weejson,
+    // TODO how?
+    //    weepack % "test->test",
+    //    LocalProject("weepack") % "test->test",
+    `weejson-circe` % "test",
+  )
 
 /**
   * ADTs:
   * - Value
   * - BufferedValue
   */
-lazy val weejson = (project in file("weejson"))
+lazy val weejson = project
   .dependsOn(`weejson-jackson`)
+
+lazy val weepack = project
+  .dependsOn(core, weepickle)
 
 /**
   * Json string parsing and generation.
@@ -80,5 +95,14 @@ lazy val `weejson-jackson` = (project in file("weejson/jackson"))
     )
   )
 
+lazy val `weejson-circe` = (project in file("weejson/circe"))
+  .dependsOn(core, weejson)
+  .settings(
+    libraryDependencies ++= {
+      Seq(
+        "io.circe" %% "circe-parser" % (if (scalaBinaryVersion.value == "2.11") "0.11.1" else "0.12.1")
+      )
+    }
+  )
 
 Global / onChangedBuildSource := ReloadOnSourceChanges

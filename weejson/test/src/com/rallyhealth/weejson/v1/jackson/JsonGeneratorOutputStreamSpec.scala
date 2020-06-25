@@ -4,7 +4,7 @@ import java.io.StringWriter
 import java.nio.charset.StandardCharsets.UTF_8
 
 import com.rallyhealth.weejson.v1.jackson.DefaultJsonFactory.Instance
-import com.rallyhealth.weejson.v1.{Value, WeeJson}
+import com.rallyhealth.weejson.v1.{GenValue, Value, WeeJson}
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{FreeSpec, LoneElement, Matchers}
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks

@@ -18,7 +18,7 @@ object WeePicklePlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] = Seq(
     // Mill conventions because I don't want to mv dirs right now:
     Compile / scalaSource := baseDirectory.value / "src",
-    Compile / sourceDirectories += baseDirectory.value / s"src-${scalaBinaryVersion.value}",
+    Compile / unmanagedSourceDirectories += baseDirectory.value / "src-jvm",
     Test / scalaSource := baseDirectory.value / "test" / "src",
     organizationHomepage := Some(url("https://www.rallyhealth.com")),
     homepage := Some(url("https://github.com/rallyhealth/weePickle")),
@@ -32,6 +32,8 @@ object WeePicklePlugin extends AutoPlugin {
     acyclic := "com.lihaoyi" %% "acyclic" % (if (scalaBinaryVersion.value == "2.11") "0.1.8" else "0.2.0"),
     libraryDependencies ++= Seq(
       "com.lihaoyi" %% "utest" % "0.7.2" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.8" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.14.1" % "test",
       compilerPlugin(acyclic.value),
       acyclic.value % "provided"
     ),
