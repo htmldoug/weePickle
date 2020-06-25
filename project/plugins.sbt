@@ -1,1 +1,3 @@
-addSbtPlugin("com.lihaoyi" % "scalatex-sbt-plugin" % "0.3.11")
+addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.5.2")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.7.0")
+addSbtPlugin("com.dwijnand" % "sbt-dynver" % "4.0.0")

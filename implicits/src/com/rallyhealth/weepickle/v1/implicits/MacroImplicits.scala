@@ -32,7 +32,7 @@ object MacroImplicits {
   }
 
 }
-trait MacroImplicits { this: com.rallyhealth.weepickle.v1.core.Types =>
+trait   MacroImplicits { this: com.rallyhealth.weepickle.v1.core.Types =>
   implicit def macroSingletonTo[T <: Singleton]: To[T] = macro MacroImplicits.applyTo[T]
   implicit def macroSingletonFrom[F <: Singleton]: From[F] = macro MacroImplicits.applyFrom[F]
   implicit def macroSingletonFromTo[X <: Singleton]: FromTo[X] = macro MacroImplicits.applyFromTo[X]
